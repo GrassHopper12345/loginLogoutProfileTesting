@@ -6,10 +6,19 @@ export default function Login() {
         email: "",
         password: ""
     })
+
+    const navigate = useNavigate('/')
+    axios.defaults.withCredentials = true;
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8081/login')
-        .then(res => console.log(res))
+        axios.post('http://localhost:8081/login', values)
+        .then(res => {
+            if(res.data.status === 'Success'){
+                navigate('/')
+            }else{
+                alert(res.data.Message)
+            }
+        })
         .catch(err => console.log(err));
     }
     return (
