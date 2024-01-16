@@ -1,15 +1,15 @@
 import express from 'express';
-import mysqli from 'mysqli';
+import mysql from 'mysql';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import JWT from 'jsonwebtoken';
-import { METHODS } from 'http';
+import jwt from 'jsonwebtoken';
+
 
 const app = express();
 app.use(express.json());
 app.use(cors(
     {
-        origin: ["http://localhost:5173/"],
+        origin: ["http://localhost:5173"],
         method: ['POST, GET'],
         credentials: true,
     }
@@ -23,6 +23,27 @@ const db = mysql.createConnection(
         database: "signup",
     }
 );
+
+const verifyUser = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.json({ Message: "you need a new toke, please provide!" });
+    } else {
+        jwt.verify(token, "our-jsonwebtoken-secret-key", (err, decoded) => {
+            if (err) {
+                return res.json({ Message: "Authentication error!" });
+            } else {
+                req.name = decoded.name;
+                next();
+            }
+        });
+    }
+};
+
+
+app.get('/', (req, res) => {
+    return res.json({ Status: "Success!", name: req.name });
+})
 
 app.post('/login', (req, res) => {
     const sql = "SELECT * FROM login WHERE email = ? AND password = ?";
@@ -38,7 +59,10 @@ app.post('/login', (req, res) => {
         }
     });
 })
-
+app.get('/logout', (req, res) => {
+    res.clearCookie(token);
+    return res.json({ Status: "Success" })
+})
 
 app.listen(8081, () => {
     console.log("Running");
