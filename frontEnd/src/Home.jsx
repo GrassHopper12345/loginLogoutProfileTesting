@@ -1,9 +1,11 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function Home() {
     const [auth, setAuth] = useState(false);
     const [name, setName] = useState('');
-    const [message, setMessage] = useState('')
+    const [Message, setMessage] = useState('');
 
     useEffect(() => {
         axios.get('http://localhost:5173')
@@ -16,19 +18,19 @@ function Home() {
                     setMessage(res.data.Message);
                 }
             })
-    }, [])
+    }, []);
 
 
     const handleLogout = () => {
         axios.get('http://localhost:5173/logout')
-        .then(res => {
-            location.reload(true);
-            if(res.data.Status === "Success") {
+            .then(res => {
                 location.reload(true);
-            }else {
-                alert(error);
-            }
-        }).catch(err => console.log(err))
+                if (res.data.Status === "Success") {
+                    location.reload(true);
+                } else {
+                    alert(err);
+                }
+            }).catch(err => console.log(err))
     }
 
     return (

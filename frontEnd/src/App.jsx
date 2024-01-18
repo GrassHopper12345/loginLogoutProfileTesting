@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from './Login';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
+import Home from './Home.jsx';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <Route path='/login' element={<Login />}></Route>
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors(
     {
         origin: ["http://localhost:5173"],
-        method: ['POST, GET'],
+        method: ['POST', 'GET'],
         credentials: true,
     }
 ));
@@ -60,8 +60,8 @@ app.post('/login', (req, res) => {
     });
 })
 app.get('/logout', (req, res) => {
-    res.clearCookie(token);
-    return res.json({ Status: "Success" })
+    res.clearCookie('token');
+    return res.json({ Status: "Success" });
 })
 
 app.listen(8081, () => {

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
     const [values, setValues] = useState({
@@ -7,7 +8,7 @@ export default function Login() {
         password: ""
     })
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     axios.defaults.withCredentials = true;
     const handleSubmit = (e) => {
@@ -33,7 +34,7 @@ export default function Login() {
                     </div>
                     <div className='mb-3'>
                         <label htmlFor="password"><strong>Password</strong></label>
-                        <input type="paswword" placeholder='Enter Password' name='password' onChange={e => setValues({ ...values, password: e.target.value })} className="form-control rounded-0" />
+                        <input type="password" placeholder='Enter Password' name='password' onChange={e => setValues({ ...values, password: e.target.value })} className="form-control rounded-0" />
                     </div>
                     <button type='submit' className='btn btn-success w-100 rounded-o'>Login</button>
                     <button className='btn btn-default'>Create Account</button>
